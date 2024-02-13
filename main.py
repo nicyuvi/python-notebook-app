@@ -1,4 +1,5 @@
 import curses
+from note import NoteController
 
 
 def draw_menu(stdscr):
@@ -31,11 +32,11 @@ def draw_menu(stdscr):
 
         # Declaration of strings
         title = 'Note Manager'
-        add_note = 'Add Note'
-        view_notes = 'View Notes'
-        search_notes = 'Search Notes'
-        delete_note = 'Delete Note'
-        save_notes = 'Save Notes'
+        add_note_title = 'Add Note'
+        view_notes_title = 'View Notes'
+        search_notes_title = 'Search Notes'
+        delete_note_title = 'Delete Note'
+        save_notes_title = 'Save Notes'
 
         statusbarstr = "Press 'q' to exit"
 
@@ -43,7 +44,7 @@ def draw_menu(stdscr):
         start_x_title = int(
             (width // 2) - (len(title) // 2) - len(title) % 2)
         start_x_options = int(
-            (width // 2) - (len(add_note) // 2) - len(add_note) % 2)
+            (width // 2) - (len(title) // 2) - len(title) % 2)
         start_y = int((height // 2) - 2)
 
         # Render status bar
@@ -67,20 +68,36 @@ def draw_menu(stdscr):
         # Print rest of text
         stdscr.addstr(start_y + 1, (width // 2) - 4, '-' * 8)
         stdscr.addstr(start_y + 3, start_x_options - 4, '[1]')
-        stdscr.addstr(start_y + 3, start_x_options + 4, add_note)
+        stdscr.addstr(start_y + 3, start_x_options + 4, add_note_title)
 
         stdscr.addstr(start_y + 4, start_x_options - 4, '[2]')
-        stdscr.addstr(start_y + 4, start_x_options + 4, view_notes)
+        stdscr.addstr(start_y + 4, start_x_options + 4, view_notes_title)
 
         stdscr.addstr(start_y + 5, start_x_options - 4, '[3]')
-        stdscr.addstr(start_y + 5, start_x_options + 4, search_notes)
+        stdscr.addstr(start_y + 5, start_x_options + 4, search_notes_title)
 
         stdscr.addstr(start_y + 6, start_x_options - 4, '[4]')
-        stdscr.addstr(start_y + 6, start_x_options + 4, delete_note)
+        stdscr.addstr(start_y + 6, start_x_options + 4, delete_note_title)
 
         stdscr.addstr(start_y + 7, start_x_options - 4, '[5]')
-        stdscr.addstr(start_y + 7, start_x_options + 4, save_notes)
+        stdscr.addstr(start_y + 7, start_x_options + 4, save_notes_title)
         stdscr.move(cursor_y, cursor_x)
+
+        note = NoteController()
+        notes = note.load_notes()
+        # load notes
+
+        # options logic here
+        if k == ord('1'):
+            note.add_note(stdscr)
+        elif k == ord('2'):
+            note.view_note(stdscr, notes)
+        elif k == ord('3'):
+            print('option 3')
+        elif k == ord('4'):
+            print('option 4')
+        elif k == ord('5'):
+            print('option 5')
 
         # Refresh the screen
         stdscr.refresh()
