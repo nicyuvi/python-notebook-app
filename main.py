@@ -89,7 +89,32 @@ def draw_menu(stdscr):
 
         # options logic here
         if k == ord('1'):
-            note.add_note(stdscr)
+
+            stdscr = curses.initscr()
+            stdscr.clear()
+
+            curses.echo()
+            stdscr.addstr(2, 3, 'Note title: ')
+            stdscr.refresh()
+            input_title = stdscr.getstr(3, 3, 20)
+
+            stdscr.addstr(5, 3, 'Note desc: ')
+            stdscr.refresh()
+            input_desc = stdscr.getstr(6, 3, 20)
+
+            note.add_note(input_title, input_desc, notes)
+
+            # if choice == "cool":
+            #     stdscr.addstr(5, 3, "Super cool!")
+            # elif choice == "hot":
+            #     stdscr.addstr(5, 3, " HOT!")
+            # else:
+            #     stdscr.addstr(5, 3, " Invalid input")
+            # stdscr.refresh()
+            # stdscr.getch()
+            # curses.endwin()
+
+        # note.add_note(stdscr)
         elif k == ord('2'):
             note.view_note(stdscr, notes)
         elif k == ord('3'):
