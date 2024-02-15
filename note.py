@@ -1,12 +1,15 @@
-from codecs import decode, encode
+from codecs import decode
 import json
-from typing import List, Optional
+from typing import Dict, List
 
 
 class Note:
     def __init__(self, title: str, desc: str):
         self.title = title
         self.desc = desc
+
+    def to_dict(self):
+        return {'title': self.title, 'desc': self.desc}
 
 
 class NoteController:
@@ -22,23 +25,15 @@ class NoteController:
         with open('notes.json', 'w') as file:
             json.dump(notes, file, indent=4)
 
-    def add_note(self, title: bytes, desc: bytes, notes):
-        # implement with decode. then see if Note instance works
-
-        # new_note = Note(title, desc)
-        decode_title = decode(title)
-        decode_desc = decode(desc)
-
-        # new_note = {new_title, new_desc}
-        new_note = {'title': decode_title, 'desc': decode_desc}
-        notes.append(new_note)
-        # print(notes)
-
+    def add_note(self, title: bytes, desc: bytes, notes: List[Dict[str, str]]):
+        note = Note(decode(title), decode(desc))
+        note_dict = note.to_dict()
+        notes.append(note_dict)
         with open('notes.json', 'w') as file:
             json.dump(notes, file, indent=4)
 
     def view_note(self, stdscr, notes: List[Note]):
-        print(notes)
+        print(type(notes))
         # if empty array, render 'no notes ...'
         # if not notes:
         #     stdscr.addstr(0, 0, 'No notes...')
