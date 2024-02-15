@@ -32,13 +32,10 @@ class NoteController:
         with open('notes.json', 'w') as file:
             json.dump(notes, file, indent=4)
 
-    def view_note(self, stdscr, notes: List[Note]):
-        print(type(notes))
-        # if empty array, render 'no notes ...'
-        # if not notes:
-        #     stdscr.addstr(0, 0, 'No notes...')
-        # else:
-        #     # else loop through and display
-        #     for index, note in enumerate(notes):
-        #         stdscr.addstr(0, index, note.title)
-        #         stdscr.addstr(0, index + 1, note.desc)
+    def view_note(self, stdscr, notes: List[Dict[str, str]]):
+        if not notes:
+            stdscr.addstr(0, 0, 'No notes...')
+        else:
+            for index, note in enumerate(notes):
+                stdscr.addstr(index, 0, note['title'])
+                stdscr.addstr(index + 4, 0, note['desc'])
