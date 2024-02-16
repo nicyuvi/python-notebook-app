@@ -1,6 +1,8 @@
 from codecs import decode
 import json
-from typing import Dict, List
+from typing import Dict, TypeAlias
+
+Notes: TypeAlias = list[Dict[str, str]]
 
 
 class Note:
@@ -21,21 +23,19 @@ class NoteController:
             notes = []
         return notes
 
-    def save_notes(self, notes):
-        with open('notes.json', 'w') as file:
-            json.dump(notes, file, indent=4)
-
-    def add_note(self, title: bytes, desc: bytes, notes: List[Dict[str, str]]):
+    def add_note(self, title: bytes, desc: bytes, notes: Notes):
         note = Note(decode(title), decode(desc))
         note_dict = note.to_dict()
         notes.append(note_dict)
         with open('notes.json', 'w') as file:
             json.dump(notes, file, indent=4)
 
-    def view_note(self, stdscr, notes: List[Dict[str, str]]):
+    def view_note(self, stdscr, notes: Notes):
         if not notes:
             stdscr.addstr(0, 0, 'No notes...')
         else:
-            for index, note in enumerate(notes):
-                stdscr.addstr(index, 0, note['title'])
-                stdscr.addstr(index + 4, 0, note['desc'])
+            counter = 0
+            for note in notes:
+                stdscr.addstr(counter, 0, note['title'])
+                stdscr.addstr(counter, len(note['title']) + 2, note['desc'])
+                counter += 2
