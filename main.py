@@ -35,8 +35,8 @@ def draw_menu(stdscr):
         add_note_title = 'Add Note'
         view_notes_title = 'View Notes'
         search_notes_title = 'Search Notes'
+        update_note_title = 'Update Note'
         delete_note_title = 'Delete Note'
-        save_notes_title = 'Save Notes'
 
         statusbarstr = "Press 'q' to exit"
 
@@ -77,19 +77,19 @@ def draw_menu(stdscr):
         stdscr.addstr(start_y + 5, start_x_options + 4, search_notes_title)
 
         stdscr.addstr(start_y + 6, start_x_options - 4, '[4]')
-        stdscr.addstr(start_y + 6, start_x_options + 4, delete_note_title)
+        stdscr.addstr(start_y + 6, start_x_options + 4, update_note_title)
 
         stdscr.addstr(start_y + 7, start_x_options - 4, '[5]')
-        stdscr.addstr(start_y + 7, start_x_options + 4, save_notes_title)
+        stdscr.addstr(start_y + 7, start_x_options + 4, delete_note_title)
+
+        # starts cursor in top left
         stdscr.move(cursor_y, cursor_x)
 
         note = NoteController()
         notes = note.load_notes()
-        # load notes
 
         # options logic here
         if k == ord('1'):
-
             stdscr = curses.initscr()
             stdscr.clear()
 
@@ -103,26 +103,14 @@ def draw_menu(stdscr):
             input_desc = stdscr.getstr(6, 3, 20)
 
             note.add_note(input_title, input_desc, notes)
-
-            # if choice == "cool":
-            #     stdscr.addstr(5, 3, "Super cool!")
-            # elif choice == "hot":
-            #     stdscr.addstr(5, 3, " HOT!")
-            # else:
-            #     stdscr.addstr(5, 3, " Invalid input")
-            # stdscr.refresh()
-            # stdscr.getch()
-            # curses.endwin()
-
-        # note.add_note(stdscr)
         elif k == ord('2'):
             note.view_note(stdscr, notes)
         elif k == ord('3'):
-            print('option 3')
+            print('search notes')
         elif k == ord('4'):
-            print('option 4')
+            note.update_note()
         elif k == ord('5'):
-            print('option 5')
+            note.delete_note(curses, stdscr, notes)
 
         # Refresh the screen
         stdscr.refresh()
