@@ -51,8 +51,32 @@ class NoteController:
                     note['id']) + len(note['title']) + 4, note['desc'])
                 counter += 2
 
-    def update_note(self):
-        print('update note')
+    def update_note(self, curses, stdscr, notes: Notes):
+        # TODO: put in utils
+        curses.echo()
+        stdscr.addstr(2, 3, 'Note ID: ')
+        stdscr.refresh()
+        note_id = stdscr.getstr(3, 3, 40)
+
+        for note in notes:
+            if note['id'] == decode(note_id):
+                curses.echo()
+                stdscr.addstr(10, 10, 'New Title: ')
+                stdscr.refresh()
+                update_note_title = stdscr.getstr(11, 11, 40)
+
+                curses.echo()
+                stdscr.addstr(20, 20, 'New Desc: ')
+                stdscr.refresh()
+                update_note_desc = stdscr.getstr(21, 21, 40)
+
+                note['title'] = decode(update_note_title)
+                note['desc'] = decode(update_note_desc)
+
+                with open('notes.json', 'w') as file:
+                    json.dump(notes, file, indent=4)
+
+                break
 
     def delete_note(self, curses, stdscr, notes: Notes):
         curses.echo()
@@ -65,3 +89,4 @@ class NoteController:
                 notes.pop(index)
                 with open('notes.json', 'w') as file:
                     json.dump(notes, file, indent=4)
+                break

@@ -34,7 +34,6 @@ def draw_menu(stdscr):
         title = 'Note Manager'
         add_note_title = 'Add Note'
         view_notes_title = 'View Notes'
-        search_notes_title = 'Search Notes'
         update_note_title = 'Update Note'
         delete_note_title = 'Delete Note'
 
@@ -74,13 +73,10 @@ def draw_menu(stdscr):
         stdscr.addstr(start_y + 4, start_x_options + 4, view_notes_title)
 
         stdscr.addstr(start_y + 5, start_x_options - 4, '[3]')
-        stdscr.addstr(start_y + 5, start_x_options + 4, search_notes_title)
+        stdscr.addstr(start_y + 5, start_x_options + 4, update_note_title)
 
         stdscr.addstr(start_y + 6, start_x_options - 4, '[4]')
-        stdscr.addstr(start_y + 6, start_x_options + 4, update_note_title)
-
-        stdscr.addstr(start_y + 7, start_x_options - 4, '[5]')
-        stdscr.addstr(start_y + 7, start_x_options + 4, delete_note_title)
+        stdscr.addstr(start_y + 6, start_x_options + 4, delete_note_title)
 
         # starts cursor in top left
         stdscr.move(cursor_y, cursor_x)
@@ -106,10 +102,8 @@ def draw_menu(stdscr):
         elif k == ord('2'):
             note.view_note(stdscr, notes)
         elif k == ord('3'):
-            print('search notes')
+            note.update_note(curses, stdscr, notes)
         elif k == ord('4'):
-            note.update_note()
-        elif k == ord('5'):
             note.delete_note(curses, stdscr, notes)
 
         # Refresh the screen
